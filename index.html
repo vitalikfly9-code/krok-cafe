@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KROK Cafe — тепла тарілка між парами</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-dark:#241a12;
+    --bg-dark-2:#2f2318;
+    --cream:#f1e7d6;
+    --cream-soft:#e9ddc6;
+    --card:#efe4d0;
+    --ink:#241a12;
+    --rust:#c1552c;
+    --rust-dark:#a8461f;
+    --mustard:#d9a441;
+    --green:#4b5a3f;
+    --line: rgba(241,231,214,0.18);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg-dark);
+    color:var(--cream);
+    font-family:'Karla',sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces',serif;
+    margin:0;
+    font-weight:600;
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  section{padding:100px 0;}
+  @media (max-width:720px){
+    section{padding:64px 0;}
+    .wrap{padding:0 20px;}
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(36,26,18,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex;align-items:center;justify-content:space-between;
+    padding-top:18px;padding-bottom:18px;
+  }
+  .brand{
+    font-family:'Fraunces',serif;
+    font-size:22px;font-weight:700;
+    display:flex;align-items:center;gap:10px;
+  }
+  .brand .mark{
+    width:30px;height:30px;border-radius:50%;
+    background:var(--mustard);
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:16px;color:var(--ink);font-weight:700;
+  }
+  nav ul{
+    list-style:none;display:flex;gap:28px;margin:0;padding:0;
+    font-size:15px;
+  }
+  nav ul a{text-decoration:none;opacity:0.85;transition:opacity .2s;}
+  nav ul a:hover{opacity:1;}
+  .nav-cta{
+    background:var(--rust);color:var(--cream);
+    padding:10px 20px;border-radius:4px;
+    text-decoration:none;font-weight:700;font-size:14px;
+    transition:background .2s;
+  }
+  .nav-cta:hover{background:var(--rust-dark);}
+  .nav-links{display:flex;align-items:center;gap:28px;}
+  @media (max-width:720px){
+    nav ul{display:none;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding-top:80px;padding-bottom:60px;
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;align-items:center;
+  }
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;padding-top:48px;}
+  }
+  .hero h1{
+    font-size:clamp(38px,6vw,64px);
+    line-height:1.04;
+    margin-bottom:22px;
+  }
+  .hero .lede{
+    font-size:19px;
+    max-width:46ch;
+    color:var(--cream-soft);
+    margin-bottom:34px;
+  }
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+  .btn-primary{
+    background:var(--rust);color:var(--cream);
+    padding:15px 28px;border-radius:4px;
+    text-decoration:none;font-weight:700;font-size:15px;
+    display:inline-block;border:none;cursor:pointer;
+    transition:transform .15s ease, background .2s;
+  }
+  .btn-primary:hover{background:var(--rust-dark);transform:translateY(-2px);}
+  .btn-ghost{
+    padding:15px 8px;text-decoration:none;font-weight:700;font-size:15px;
+    border-bottom:2px solid var(--mustard);color:var(--cream);
+  }
+  .hours-note{
+    margin-top:28px;font-size:14px;color:var(--cream-soft);
+    display:flex;gap:8px;align-items:center;
+  }
+  .dot-live{
+    width:8px;height:8px;border-radius:50%;background:#7fae6c;
+    box-shadow:0 0 0 0 rgba(127,174,108,.6);
+    animation:pulse 2.4s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(127,174,108,.55);}
+    70%{box-shadow:0 0 0 9px rgba(127,174,108,0);}
+    100%{box-shadow:0 0 0 0 rgba(127,174,108,0);}
+  }
+
+  /* Hero graphic: bowl with steam - single orchestrated animation */
+  .bowl-wrap{position:relative;display:flex;justify-content:center;}
+  .steam{
+    position:absolute;
+    bottom:64%;
+    opacity:0;
+    stroke:var(--cream-soft);
+  }
+  .steam.s1{left:38%;animation:rise 3.6s ease-in infinite;}
+  .steam.s2{left:50%;animation:rise 3.6s ease-in 1.2s infinite;}
+  .steam.s3{left:60%;animation:rise 3.6s ease-in 2.4s infinite;}
+  @keyframes rise{
+    0%{transform:translateY(0) scaleX(1);opacity:0;}
+    15%{opacity:.55;}
+    80%{opacity:0;}
+    100%{transform:translateY(-70px) scaleX(1.3);opacity:0;}
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about{
+    background:var(--card);color:var(--ink);
+    border-radius:8px;
+    display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;align-items:center;
+  }
+  .about-inner{padding:72px 0;}
+  @media (max-width:860px){
+    .about{grid-template-columns:1fr;}
+  }
+  .about-figure{
+    background:var(--bg-dark);border-radius:8px;
+    aspect-ratio:4/5;position:relative;overflow:hidden;
+    display:flex;align-items:flex-end;padding:24px;
+  }
+  .about-figure svg{width:100%;}
+  .about h2{font-size:34px;margin-bottom:20px;color:var(--ink);}
+  .about p{color:#4a3c2c;max-width:52ch;margin-bottom:14px;}
+  .about-stats{
+    display:flex;gap:36px;margin-top:28px;flex-wrap:wrap;
+  }
+  .about-stats div strong{
+    display:block;font-family:'Fraunces',serif;font-size:28px;color:var(--rust);
+  }
+  .about-stats div span{font-size:13px;color:#6b5c47;}
+
+  /* ---------- MENU / OFFER ---------- */
+  .menu-head{max-width:56ch;margin-bottom:48px;}
+  .menu-head h2{font-size:34px;margin-bottom:14px;}
+  .menu-head p{color:var(--cream-soft);font-size:16px;}
+  .menu-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:22px;
+  }
+  @media (max-width:860px){
+    .menu-grid{grid-template-columns:1fr;}
+  }
+  .dish{
+    background:var(--bg-dark-2);
+    border:1px dashed var(--line);
+    border-radius:6px;
+    padding:26px 24px;
+    cursor:pointer;
+    position:relative;
+    min-height:190px;
+    transition:border-color .2s, background .2s;
+  }
+  .dish:hover, .dish:focus-within{border-color:var(--mustard);background:#382a1c;}
+  .dish-tag{
+    display:inline-block;background:var(--mustard);color:var(--ink);
+    font-size:12px;font-weight:700;padding:3px 9px;border-radius:3px;margin-bottom:14px;
+  }
+  .dish h3{font-size:22px;margin-bottom:6px;}
+  .dish .price{color:var(--mustard);font-weight:700;font-size:15px;margin-bottom:12px;}
+  .dish-ingredients{
+    max-height:0;overflow:hidden;
+    transition:max-height .35s ease;
+    font-size:14px;color:var(--cream-soft);
+  }
+  .dish:hover .dish-ingredients, .dish:focus-within .dish-ingredients{max-height:120px;margin-top:6px;}
+  .dish-hint{font-size:12px;color:#a8977c;margin-top:10px;}
+  .dish:hover .dish-hint{display:none;}
+
+  /* ---------- TESTIMONIALS ---------- */
+  .reviews{background:var(--bg-dark-2);}
+  .review-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px;
+  }
+  @media (max-width:860px){.review-grid{grid-template-columns:1fr;}}
+  .review-card{
+    background:var(--bg-dark);border-radius:6px;padding:28px;
+    border-left:3px solid var(--rust);
+  }
+  .review-card p{font-size:16px;color:var(--cream-soft);margin-bottom:18px;}
+  .review-who{font-size:14px;font-weight:700;color:var(--cream);}
+  .review-who span{display:block;font-weight:400;color:#a8977c;font-size:13px;}
+
+  /* ---------- CONTACT ---------- */
+  .contact{
+    display:grid;grid-template-columns:1fr 1fr;gap:56px;
+  }
+  @media (max-width:860px){.contact{grid-template-columns:1fr;}}
+  .contact h2{font-size:34px;margin-bottom:16px;}
+  .contact p.lede{color:var(--cream-soft);max-width:44ch;margin-bottom:30px;}
+  .info-row{
+    display:flex;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);
+    font-size:15px;
+  }
+  .info-row strong{min-width:110px;color:var(--mustard);font-weight:700;}
+  form{display:flex;flex-direction:column;gap:14px;}
+  label{font-size:13px;color:var(--cream-soft);}
+  input,textarea{
+    background:var(--bg-dark-2);border:1px solid var(--line);
+    color:var(--cream);padding:12px 14px;border-radius:4px;
+    font-family:'Karla',sans-serif;font-size:15px;
+  }
+  input:focus,textarea:focus{outline:2px solid var(--mustard);border-color:transparent;}
+  textarea{min-height:96px;resize:vertical;}
+  .form-note{font-size:13px;color:#a8977c;margin-top:2px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:32px 0;font-size:13px;color:#a8977c;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand"><span class="mark">K</span> KROK Cafe</div>
+    <div class="nav-links">
+      <ul>
+        <li><a href="#about">Про нас</a></li>
+        <li><a href="#menu">Меню</a></li>
+        <li><a href="#reviews">Відгуки</a></li>
+        <li><a href="#contact">Контакти</a></li>
+      </ul>
+      <a class="nav-cta" href="#contact">Замовити</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap hero" style="padding:0;">
+    <div>
+      <h1>Тепла тарілка<br>між парами.</h1>
+      <p class="lede">KROK Cafe — студентська їдальня при коледжі, де домашній борщ і драники подають швидше, ніж триває перерва.</p>
+      <div class="hero-actions">
+        <a class="btn-primary" href="#contact">Замовити онлайн</a>
+        <a class="btn-ghost" href="#menu">Подивитись меню</a>
+      </div>
+      <div class="hours-note"><span class="dot-live"></span> Відкрито зараз · до 20:00 у будні</div>
+    </div>
+    <div class="bowl-wrap">
+      <svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="160" cy="230" rx="120" ry="18" fill="#000" opacity="0.18"/>
+        <path d="M50 190 C50 240 100 268 160 268 C220 268 270 240 270 190 L270 175 L50 175 Z" fill="#c1552c"/>
+        <ellipse cx="160" cy="175" rx="110" ry="22" fill="#d9a441"/>
+        <ellipse cx="160" cy="172" rx="92" ry="16" fill="#e7c477"/>
+        <circle cx="130" cy="170" r="6" fill="#8a3f22"/>
+        <circle cx="175" cy="166" r="5" fill="#4b5a3f"/>
+        <circle cx="150" cy="176" r="4" fill="#8a3f22"/>
+        <rect x="52" y="182" width="216" height="8" fill="#a8461f" opacity="0.5"/>
+        <line class="steam s1" x1="0" y1="30" x2="0" y2="0" transform="translate(122 90)" stroke-width="4" stroke-linecap="round"/>
+        <line class="steam s2" x1="0" y1="30" x2="0" y2="0" transform="translate(160 80)" stroke-width="4" stroke-linecap="round"/>
+        <line class="steam s3" x1="0" y1="30" x2="0" y2="0" transform="translate(192 92)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+    <div class="about-figure">
+      <svg viewBox="0 0 240 260" width="100%">
+        <rect width="240" height="260" fill="#241a12"/>
+        <circle cx="120" cy="90" r="60" fill="#d9a441"/>
+        <rect x="60" y="150" width="120" height="90" rx="10" fill="#c1552c"/>
+        <rect x="90" y="150" width="60" height="20" fill="#4b5a3f"/>
+      </svg>
+    </div>
+    <div class="about-inner">
+      <h2>Заснована студентами, для студентів</h2>
+      <p>KROK Cafe відкрилась у 2023 році як маленький куточок при відділенні інформаційних технологій — місце, де можна поїсти щось справжнє між парами, а не тільки бутерброд з автомата.</p>
+      <p>Ми готуємо за домашніми рецептами: борщ вариться щоранку, а драники смажать на замовлення. Нічого не стоїть під лампою годинами.</p>
+      <div class="about-stats">
+        <div><strong>3 хв</strong><span>середній час очікування</span></div>
+        <div><strong>120+</strong><span>студентів щодня</span></div>
+        <div><strong>7</strong><span>страв власного рецепту</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <div class="menu-head">
+      <h2>Що ми готуємо</h2>
+      <p>Наведіть курсор на страву, щоб побачити склад. Меню коротке навмисно — усе, що в ньому є, готується щодня зі свіжих продуктів.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="dish" tabindex="0">
+        <span class="dish-tag">Новинка</span>
+        <h3>Борщ</h3>
+        <div class="price">65 грн</div>
+        <div class="dish-ingredients">Буряк, капуста, картопля, квасоля, томатна заправка, сметана, часниковий пампушок.</div>
+        <div class="dish-hint">наведіть курсор →</div>
+      </div>
+      <div class="dish" tabindex="0">
+        <h3>Драники</h3>
+        <div class="price">55 грн</div>
+        <div class="dish-ingredients">Тертата картопля, цибуля, яйце, борошно; подаються зі сметаною та кропом.</div>
+        <div class="dish-hint">наведіть курсор →</div>
+      </div>
+      <div class="dish" tabindex="0">
+        <h3>Квас</h3>
+        <div class="price">25 грн</div>
+        <div class="dish-ingredients">Житній хліб, вода, цукор, дріжджі, м'ята — власного бродіння, без консервантів.</div>
+        <div class="dish-hint">наведіть курсор →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="reviews" class="reviews">
+  <div class="wrap">
+    <h2 style="font-size:34px;">Що кажуть студенти</h2>
+    <div class="review-grid">
+      <div class="review-card">
+        <p>«Борщ тут кращий, ніж у моєї бабусі — і я їй цього ніколи не скажу.»</p>
+        <div class="review-who">Марʼяна К.<span>2 курс, ІТ-відділення</span></div>
+      </div>
+      <div class="review-card">
+        <p>«Встигаю поїсти й повернутись на пару за 15 хвилин. Це рятує моє життя щовівторка.»</p>
+        <div class="review-who">Дмитро П.<span>1 курс</span></div>
+      </div>
+      <div class="review-card">
+        <p>«Замовлення онлайн — окремий кайф: береш готове й не стоїш у черзі.»</p>
+        <div class="review-who">Олена В.<span>3 курс</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap contact">
+    <div>
+      <h2>Завітайте або замовте наперед</h2>
+      <p class="lede">Ми на першому поверсі корпусу B. Онлайн-замовлення готове за 10 хвилин до вашого приходу.</p>
+      <div class="info-row"><strong>Адреса</strong> вул. Лаготіна, 8, корпус B, 1 поверх</div>
+      <div class="info-row"><strong>Години</strong> Пн–Пт: 8:00–20:00, Сб: 9:00–15:00</div>
+      <div class="info-row"><strong>Телефон</strong> +38 (044) 555-01-23</div>
+    </div>
+    <form onsubmit="event.preventDefault(); this.querySelector('.form-note').textContent='Дякуємо! Ми зв’яжемось із вами протягом 10 хвилин.';">
+      <div>
+        <label for="name">Імʼя</label>
+        <input id="name" type="text" placeholder="Як до вас звертатись?" required>
+      </div>
+      <div>
+        <label for="order">Що замовляєте?</label>
+        <textarea id="order" placeholder="Наприклад: борщ + квас, забрати о 13:20"></textarea>
+      </div>
+      <button class="btn-primary" type="submit" style="align-self:flex-start;">Надіслати замовлення</button>
+      <div class="form-note">Заповніть форму — ми підтвердимо час готовності.</div>
+    </form>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div>KROK Cafe, 2026. Навчальний проєкт відділення інформаційних технологій.</div>
+  <div>Зроблено з борщем та любов'ю.</div>
+</footer>
+
+</body>
+</html>
